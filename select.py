@@ -17,26 +17,13 @@ from .coordinator import GoEChargerCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
+# DEFINITION: Nur frc
 SELECT_ENTITIES: tuple[SelectEntityDescription, ...] = (
     SelectEntityDescription(
         key="frc",
         translation_key="force_control",
         icon="mdi:power-standby",
         options=["0", "1", "2"],
-        entity_category=EntityCategory.CONFIG,
-    ),
-    SelectEntityDescription(
-        key="mod",
-        translation_key="charging_mode",
-        icon="mdi:ev-plug-type2",
-        options=[str(i) for i in range(64)],
-        entity_category=EntityCategory.CONFIG,
-    ),
-    SelectEntityDescription(
-        key="spl3",
-        translation_key="phase_switch",
-        icon="mdi:sine-wave",
-        options=["0", "1"],
         entity_category=EntityCategory.CONFIG,
     ),
 )
@@ -50,12 +37,27 @@ async def async_setup_entry(
     """Set up select entities."""
     coordinator: GoEChargerCoordinator = config_entry.runtime_data
 
+    _LOGGER.critical("=== SETUP SELECT ENTITIES CALLED ===")
+    _LOGGER.critical("Coordinator host: %s", coordinator.host)
+    _LOGGER.critical("Coordinator data available: %s", coordinator.data is not None)
+    if coordinator.data:
+        _LOGGER.critical("Data keys: %s", list(coordinator.data.keys()))
+        _LOGGER.critical("'frc' in data: %s", "frc" in coordinator.data)
+        _LOGGER.critical("frc value: %s", coordinator.data.get("frc"))
+
     entities: list[GoEChargerSelect] = []
     for description in SELECT_ENTITIES:
-        entities.append(GoEChargerSelect(coordinator, description))
+        _LOGGER.critical("Processing entity: %s", description.key)
+        try:
+            entity = GoEChargerSelect(coordinator, description)
+            entities.append(entity)
+            _LOGGER.critical("Created entity: %s", entity.unique_id)
+        except Exception as e:
+            _LOGGER.exception("Failed to create entity %s: %s", description.key, e)
 
+    _LOGGER.critical("Adding %d entities", len(entities))
     async_add_entities(entities)
-    _LOGGER.info("Added %d select entities", len(entities))
+    _LOGGER.critical("=== SETUP SELECT ENTITIES FINISHED ===")
 
 
 class GoEChargerSelect(SelectEntity):
@@ -73,6 +75,7 @@ class GoEChargerSelect(SelectEntity):
         self._attr_unique_id = f"{coordinator.host}_{description.key}"
         self._attr_device_info = coordinator.device_info
         self.coordinator = coordinator
+        _LOGGER.critical("Initializing entity: %s", self._attr_unique_id)
 
     @property
     def current_option(self) -> str | None:
