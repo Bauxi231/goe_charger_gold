@@ -4,8 +4,9 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from . import async_setup_entry
-from .const import DOMAIN
+import goe_charger_gold
+from goe_charger_gold import async_setup_entry
+from goe_charger_gold.const import DOMAIN
 
 
 @pytest.fixture
