@@ -1,0 +1,83 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "go-e Charger Gold konfigurieren",
+        "description": "Gib die IP-Adresse deines go-e Chargers ein. Falls du einen Bearer Token verwendest, gib diesen hier ein.",
+        "data": {
+          "host": "IP-Adresse des Chargers",
+          "token": "Bearer Token (optional)"
+        },
+        "data_description": {
+          "host": "Die IP-Adresse oder der Hostname deines go-e Chargers im lokalen Netzwerk.",
+          "token": "Der Bearer Token für die API-Authentifizierung (falls aktiviert)."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung zum Charger fehlgeschlagen. Bitte IP-Adresse und Netzwerkverbindung prüfen.",
+      "invalid_auth": "Authentifizierung fehlgeschlagen. Bitte den Bearer Token prüfen.",
+      "unknown": "Ein unbekannter Fehler ist aufgetreten. Bitte die Home Assistant-Logs prüfen."
+    },
+    "abort": {
+      "already_configured": "Dieser Charger ist bereits konfiguriert."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "firmware_version": { "name": "Firmware-Version" },
+      "device_type": { "name": "Gerätetyp" },
+      "manufacturer": { "name": "Hersteller" },
+      "serial_number": { "name": "Seriennummer" },
+      "wifi_signal": { "name": "WiFi-Signalstärke" },
+      "charger_temperature": { "name": "Charger-Temperatur" },
+      "cable_temperature": { "name": "Kabeltemperatur" },
+      "ip_address": { "name": "IP-Adresse" },
+      "error_code": { "name": "Fehlercode" },
+      "cable_limit": { "name": "Kabel-Stromgrenze" },
+      "frequency": { "name": "Netzfrequenz" },
+      "total_power": { "name": "Gesamtleistung" },
+      "power_l1": { "name": "Leistung L1" },
+      "power_l2": { "name": "Leistung L2" },
+      "power_l3": { "name": "Leistung L3" },
+      "current_l1": { "name": "Strom L1" },
+      "current_l2": { "name": "Strom L2" },
+      "current_l3": { "name": "Strom L3" },
+      "voltage_l1": { "name": "Spannung L1" },
+      "voltage_l2": { "name": "Spannung L2" },
+      "voltage_l3": { "name": "Spannung L3" },
+      "energy_session": { "name": "Energie Session" },
+      "energy_total": { "name": "Energie Gesamt" },
+      "vehicle_status": { "name": "Fahrzeugstatus" },
+      "charger_status": { "name": "Charger-Status" }
+    },
+    "number": {
+      "charging_current": { "name": "Ladestrom" },
+      "max_current_limit": { "name": "Max. Stromgrenze" },
+      "min_current_limit": { "name": "Min. Stromgrenze" }
+    },
+    "switch": {
+      "force_update": { "name": "Force Update" },
+      "zero_feedin": { "name": "Zero Feed-in" },
+      "auth_lock": { "name": "Auth Lock" }
+    },
+    "select": {
+      "force_control": {
+        "name": "Force Control",
+        "option": {
+          "0": "Laden erlauben (Auto)",
+          "1": "Laden stoppen (Force Off)",
+          "2": "Laden erzwingen"
+        }
+      },
+      "charging_mode": { "name": "Lademodus" },
+      "phase_switch": {
+        "name": "Phasenwahl",
+        "option": {
+          "0": "1 Phase",
+          "1": "3 Phasen"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+[tool.black]
+line-length = 88
+target-version = ['py312']
+
+[tool.isort]
+profile = "black"
+line_length = 88
+known_first_party = ["goe_charger_gold"]
+
+[tool.flake8]
+max-line-length = 88
+ignore = ["E501", "W503", "W504"]
+exclude = [".git", "__pycache__", "tests"]
