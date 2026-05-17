@@ -55,6 +55,7 @@ DIAGNOSTIC_SENSORS: tuple[SensorEntityDescription, ...] = (
     ),
     SensorEntityDescription(
         key="rssi",
+        state_class=SensorStateClass.MEASUREMENT,
         translation_key="wifi_signal",
         native_unit_of_measurement="dBm",
         device_class=SensorDeviceClass.SIGNAL_STRENGTH,
