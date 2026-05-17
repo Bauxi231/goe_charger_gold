@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import logging
-from typing import Any
 
 from homeassistant.components.sensor import (
     SensorDeviceClass,
@@ -13,7 +12,6 @@ from homeassistant.components.sensor import (
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
-    PERCENTAGE,
     UnitOfElectricCurrent,
     UnitOfElectricPotential,
     UnitOfEnergy,
@@ -26,12 +24,10 @@ from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import StateType
 
-from .const import DOMAIN
 from .coordinator import GoEChargerCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
-# Diagnostische Sensoren
 DIAGNOSTIC_SENSORS: tuple[SensorEntityDescription, ...] = (
     SensorEntityDescription(
         key="fwv",
@@ -106,7 +102,6 @@ DIAGNOSTIC_SENSORS: tuple[SensorEntityDescription, ...] = (
     ),
 )
 
-# Mess-Sensoren (Ladeleistung, Strom, Spannung, Energie)
 MEASUREMENT_SENSORS: tuple[SensorEntityDescription, ...] = (
     SensorEntityDescription(
         key="total_power",
@@ -215,11 +210,9 @@ async def async_setup_entry(
 
     entities: list[GoEChargerSensor] = []
 
-    # Mess-Sensoren
     for description in MEASUREMENT_SENSORS:
         entities.append(GoEChargerSensor(coordinator, description))
 
-    # Diagnose-Sensoren
     for description in DIAGNOSTIC_SENSORS:
         entities.append(GoEChargerSensor(coordinator, description))
 
@@ -230,7 +223,7 @@ async def async_setup_entry(
 class GoEChargerSensor(SensorEntity):
     """Representation of a go-e Charger sensor."""
 
-    _attr_has_entity_name = True  # GOLD STANDARD: Device name + entity name
+    _attr_has_entity_name = True
 
     def __init__(
         self,
@@ -252,7 +245,6 @@ class GoEChargerSensor(SensorEntity):
         data = self.coordinator.data
         key = self.entity_description.key
 
-        # Special handling für Temperatur-Sensoren (kommen als Array [Charger, Cable])
         if key == "temperature_1":
             tma = data.get("tma", [0, 0])
             return tma[0] if len(tma) > 0 else 0.0
@@ -260,7 +252,6 @@ class GoEChargerSensor(SensorEntity):
             tma = data.get("tma", [0, 0])
             return tma[1] if len(tma) > 1 else 0.0
 
-        # Normaler Fall: Direkter Zugriff
         return data.get(key)
 
     @property

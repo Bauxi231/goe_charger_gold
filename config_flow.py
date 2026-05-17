@@ -10,10 +10,9 @@ from homeassistant import config_entries
 from homeassistant.config_entries import ConfigFlowResult
 from homeassistant.const import CONF_HOST, CONF_TOKEN
 from homeassistant.core import HomeAssistant
-from homeassistant.data_entry_flow import FlowResult
 from homeassistant.exceptions import HomeAssistantError
 
-from .api import GoEChargerAPI, GoEChargerAPIError
+from .api import GoEChargerAPI
 from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
@@ -31,14 +30,11 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
     api = GoEChargerAPI(hass, data[CONF_HOST], data.get(CONF_TOKEN))
 
     try:
-        # Test connection
         if not await api.test_connection():
             raise CannotConnect("Could not connect to the charger.")
 
-        # Get basic info to confirm
         status = await api.get_status()
 
-        # Return device info for the config entry
         return {
             "title": status.get("fna", "go-e Charger"),
             "host": data[CONF_HOST],
@@ -60,7 +56,6 @@ class GoEChargerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         errors: dict[str, str] = {}
 
         if user_input is not None:
-            # Check if already configured
             await self.async_set_unique_id(user_input[CONF_HOST])
             self._abort_if_unique_id_configured()
 

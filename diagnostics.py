@@ -6,11 +6,10 @@ from typing import Any
 
 from homeassistant.components.diagnostics import async_redact_data
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_HOST, CONF_TOKEN
+from homeassistant.const import CONF_TOKEN
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceEntry
 
-from .const import DOMAIN
 from .coordinator import GoEChargerCoordinator
 
 TO_REDACT = {CONF_TOKEN, "ssid", "key", "bssid", "staticIp", "staticGateway"}

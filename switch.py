@@ -13,7 +13,6 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .const import DOMAIN
 from .coordinator import GoEChargerCoordinator
 
 _LOGGER = logging.getLogger(__name__)
@@ -59,7 +58,7 @@ async def async_setup_entry(
 class GoEChargerSwitch(SwitchEntity):
     """Representation of a go-e Charger switch entity."""
 
-    _attr_has_entity_name = True  # GOLD STANDARD
+    _attr_has_entity_name = True
 
     def __init__(
         self,
@@ -78,7 +77,6 @@ class GoEChargerSwitch(SwitchEntity):
         if self.coordinator.data is None:
             return None
         value = self.coordinator.data.get(self.entity_description.key)
-        # API liefert: true/false oder 1/0
         if isinstance(value, bool):
             return value
         if isinstance(value, int):

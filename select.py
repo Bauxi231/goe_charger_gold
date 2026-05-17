@@ -13,7 +13,6 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .const import DOMAIN
 from .coordinator import GoEChargerCoordinator
 
 _LOGGER = logging.getLogger(__name__)
@@ -30,14 +29,14 @@ SELECT_ENTITIES: tuple[SelectEntityDescription, ...] = (
         key="mod",
         translation_key="charging_mode",
         icon="mdi:ev-plug-type2",
-        options=[str(i) for i in range(64)],  # API unterstützt viele Modi (0-63)
+        options=[str(i) for i in range(64)],
         entity_category=EntityCategory.CONFIG,
     ),
     SelectEntityDescription(
         key="spl3",
         translation_key="phase_switch",
         icon="mdi:sine-wave",
-        options=["0", "1"],  # 0=1-Phase, 1=3-Phasen
+        options=["0", "1"],
         entity_category=EntityCategory.CONFIG,
     ),
 )
@@ -62,7 +61,7 @@ async def async_setup_entry(
 class GoEChargerSelect(SelectEntity):
     """Representation of a go-e Charger select entity."""
 
-    _attr_has_entity_name = True  # GOLD STANDARD
+    _attr_has_entity_name = True
 
     def __init__(
         self,

@@ -15,7 +15,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .const import DOMAIN, MAX_AMPERE, MIN_AMPERE
+from .const import MAX_AMPERE, MIN_AMPERE
 from .coordinator import GoEChargerCoordinator
 
 _LOGGER = logging.getLogger(__name__)
@@ -75,7 +75,7 @@ async def async_setup_entry(
 class GoEChargerNumber(NumberEntity):
     """Representation of a go-e Charger number entity."""
 
-    _attr_has_entity_name = True  # GOLD STANDARD
+    _attr_has_entity_name = True
 
     def __init__(
         self,
