@@ -3,10 +3,9 @@
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-from custom_components.goe_charger_gold import async_setup_entry
-from custom_components.goe_charger_gold.const import DOMAIN
-from homeassistant.core import HomeAssistant
-from homeassistant.setup import async_setup_component
+
+from . import async_setup_entry
+from .const import DOMAIN
 
 
 @pytest.fixture
@@ -41,16 +40,12 @@ def mock_coordinator():
     return coordinator
 
 
-async def test_async_setup_entry(
-    hass: HomeAssistant, mock_config_entry, mock_api, mock_coordinator
-):
+async def test_async_setup_entry(hass, mock_config_entry, mock_api, mock_coordinator):
     """Test setting up the integration."""
     with (
+        patch("goe_charger_gold.GoeChargerAPI", return_value=mock_api),
         patch(
-            "custom_components.goe_charger_gold.GoeChargerAPI", return_value=mock_api
-        ),
-        patch(
-            "custom_components.goe_charger_gold.GoeChargerCoordinator",
+            "goe_charger_gold.GoeChargerCoordinator",
             return_value=mock_coordinator,
         ),
     ):
