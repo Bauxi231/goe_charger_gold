@@ -78,15 +78,15 @@ class GoEChargerAPI:
         return await self._request("GET", API_STATUS_ENDPOINT)
 
     async def set_value(self, field: str, value: Any) -> dict[str, Any]:
-        """Set a single value on the charger using query parameters."""
-        # go-e API v2 expects: /api/set?field=value
+        """Set a single value on the charger using GET with query parameters."""
+        # go-e API v2 expects: GET /api/set?field=value (NOT POST!)
         params = {field: value}
-        return await self._request("POST", API_SET_ENDPOINT, params)
+        return await self._request("GET", API_SET_ENDPOINT, params)
 
     async def set_multiple_values(self, values: dict[str, Any]) -> dict[str, Any]:
         """Set multiple values on the charger in one request."""
-        # go-e API v2 supports multiple query params: /api/set?field1=val1&field2=val2
-        return await self._request("POST", API_SET_ENDPOINT, values)
+        # go-e API v2 supports multiple query params: GET /api/set?field1=val1&field2=val2
+        return await self._request("GET", API_SET_ENDPOINT, values)
 
     async def test_connection(self) -> bool:
         """Test if the charger is reachable."""
